@@ -1,13 +1,16 @@
-﻿using System;
+﻿using mshtml;
+using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Ribbon;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using mshtml;
 
 namespace Client
 {
@@ -30,7 +33,9 @@ namespace Client
 
             InitializeComponent();
 
-			SetupTrayIcon();
+            CreateCommands();
+
+            SetupTrayIcon();
 
 			if (User.Default.CheckForUpdates) CheckForUpdates();
 
@@ -43,7 +48,75 @@ namespace Client
 			lbTasks.Focus();
 		}
 
-		public MainWindowViewModel ViewModel { get; set; }
+        private void CreateCommands()
+        {
+            // Sind ursprünglich im XAML definiert, werden aber hier im Code-Behind registriert, damit sie auch über Ribbon funktionieren
+            //File Menu CommandBindings erstellen
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("OpenFile"), OpenFileExecuted, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("NewFile"), NewFileExecuted, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("PrintFile"), PrintFileExecuted, WhenTasksLoadedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("PrintPreviewFile"), PrintPreviewFileExecuted, WhenTasksLoadedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ArchiveCompletedTasks"), ArchiveCompletedTasksExecuted, WhenTasksLoadedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ReloadFile"), ReloadFileExecuted, WhenTasksLoadedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("Options"), OptionsExecuted, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ExitApplication"), ExitApplicationExecuted, AlwaysCanExecute));
+            //Edit MenuCommandBindings erstellen
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("CopySelectedTaskToNewTask"), CopySelectedTaskToNewTaskExecuted, WhenSingleTaskSelectedCanExecute));
+            //Task menu CommandBindings erstellen
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("NewTask"), NewTaskExecuted, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("NewTaskWithPriority"), NewTaskWithPriorityExecuted, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("UpdateTask"), UpdateTaskExecuted, WhenSingleTaskSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("AppendText"), AppendTextExecuted, WhenTasksSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("DeleteTask"), DeleteTaskExecuted, WhenTasksSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ToggleCompletion"), ToggleCompletionExecuted, WhenTasksSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("SetDueDate"), SetDueDateExecuted, WhenTasksSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("PostponeTask"), PostponeTaskExecuted, WhenTasksSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("SetThresholdDate"), SetThresholdDateExecuted, WhenTasksSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ThresholdTask"), ThresholdTaskExecuted, WhenTasksSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("SetPriority"), SetPriorityExecuted, WhenTasksSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("IncreasePriority"), IncreasePriorityExecuted, WhenTasksSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("DecreasePriority"), DecreasePriorityExecuted, WhenTasksSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("RemovePriority"), RemovePriorityExecuted, WhenTasksSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("IncrementDueDate"), IncrementDueDateExecuted, WhenTasksSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("DecrementDueDate"), DecrementDueDateExecuted, WhenTasksSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("RemoveDueDate"), RemoveDueDateExecuted, WhenTasksSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("IncrementThresholdDate"), IncrementThresholdDateExecuted, WhenTasksSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("DecrementThresholdDate"), DecrementThresholdDateExecuted, WhenTasksSelectedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("RemoveThresholdDate"), RemoveThresholdDateExecuted, WhenTasksSelectedCanExecute));
+            //Sort menu commandBindings erstellen
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("SortByAlphabetical"), SortByAlphabeticalExecuted, WhenTasksLoadedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("SortByCompleted"), SortByCompletedExecuted, WhenTasksLoadedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("SortByContext"), SortByContextExecuted, WhenTasksLoadedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("SortByDueDate"), SortByDueDateExecuted, WhenTasksLoadedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("SortByCreatedDate"), SortByCreatedDateExecuted, WhenTasksLoadedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("SortByPriority"), SortByPriorityExecuted, WhenTasksLoadedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("SortByProject"), SortByProjectExecuted, WhenTasksLoadedCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("SortByFileOrder"), SortByFileOrderExecuted, WhenTasksLoadedCanExecute));
+            // Filter menu commandBindings erstellen
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("DefineFilters"), DefineFiltersExecuted, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ApplyFilterFutureTasks"), ApplyFilterFutureTasksExecuted, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ApplyShowHiddenTasks"), ApplyShowHiddenTasksExecuted, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("RemoveFilter"), RemoveFilterExecuted, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ApplyFilterPreset1"), ApplyFilterPreset1Executed, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ApplyFilterPreset2"), ApplyFilterPreset1Executed, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ApplyFilterPreset3"), ApplyFilterPreset1Executed, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ApplyFilterPreset4"), ApplyFilterPreset1Executed, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ApplyFilterPreset5"), ApplyFilterPreset1Executed, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ApplyFilterPreset6"), ApplyFilterPreset1Executed, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ApplyFilterPreset7"), ApplyFilterPreset1Executed, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ApplyFilterPreset8"), ApplyFilterPreset1Executed, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ApplyFilterPreset9"), ApplyFilterPreset1Executed, AlwaysCanExecute));
+            // Help menu commandBindings erstellen
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("HelpAbout"), HelpAboutExecuted, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ViewLog"), ViewLogExecuted, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("Donate"), DonateExecuted, AlwaysCanExecute));
+            CommandBindings.Add(new CommandBinding((ICommand)FindResource("ShowCalendar"), ShowCalendarExecuted, AlwaysCanExecute));
+            //Task List CommandBindings erstellen
+            // CommandBindings.Add(new CommandBinding((ICommand)FindResource("EmulateUpArrow"), EmulateUpArrowExecuted, WhenTasksLoadedCanExecute));
+            /// CommandBindings.Add(new CommandBinding((ICommand)FindResource("EmulateDownArrowExecuted"), DonateExecuted, WhenTasksLoadedCanExecute));
+        }
+
+        public MainWindowViewModel ViewModel { get; set; }
 
 		private void CheckForUpdates()
                 {
@@ -661,7 +734,9 @@ namespace Client
             ViewModel.TaskTextPreviewKeyUp(e);
         }
 
+
         #endregion
-    }
+
+     }
 }
 

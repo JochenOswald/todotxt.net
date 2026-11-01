@@ -1869,6 +1869,7 @@ namespace Client
                 _window.btnCancelPrint.Visibility = Visibility.Visible;
                 _window.lbTasks.Visibility = Visibility.Hidden;
                 _window.menu1.Visibility = Visibility.Hidden;
+                _window.ribbon1.Visibility = Visibility.Hidden;
                 _window.taskText.Visibility = Visibility.Hidden;
             }
             else
@@ -1877,7 +1878,8 @@ namespace Client
                 _window.btnPrint.Visibility = Visibility.Hidden;
                 _window.btnCancelPrint.Visibility = Visibility.Hidden;
                 _window.lbTasks.Visibility = Visibility.Visible;
-                _window.menu1.Visibility = Visibility.Visible;
+                //_window.menu1.Visibility = Visibility.Visible;
+                _window.ribbon1.Visibility = Visibility.Visible;
                 _window.taskText.Visibility = Visibility.Visible;
             }
         }

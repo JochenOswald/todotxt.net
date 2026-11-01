@@ -1,17 +1,20 @@
-<Window x:Class="Client.MainWindow"
+﻿<Window x:Class="Client.MainWindow"
 		Name="ToDoMainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:Client"
         xmlns:convertors="clr-namespace:Client.Converters"
+        xmlns:ribbon="clr-namespace:System.Windows.Controls.Ribbon;assembly=System.Windows.Controls.Ribbon"
 		Loaded="Window_Loaded"
         Closing="Window_Closing"
         Title="todotxt.net" 
         mc:Ignorable="d" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-        Height="384" 
-        Width="562" 
+        Height="368" 
+        MinHeight="380"
+        Width="592" 
+        MinWidth="300"
         SizeChanged="Window_SizeChanged" 
         LocationChanged="Window_LocationChanged" 
         DataContext="{Binding}" 
@@ -114,66 +117,6 @@
         <convertors:SortTypeToDescriptionConvertor x:Key="sortTypeToDescConv"></convertors:SortTypeToDescriptionConvertor>
     </Window.Resources>
     <Window.CommandBindings>
-        <!-- File menu commands -->
-        <CommandBinding Command="{StaticResource OpenFile}" CanExecute="AlwaysCanExecute" Executed="OpenFileExecuted"/>
-        <CommandBinding Command="{StaticResource NewFile}" CanExecute="AlwaysCanExecute" Executed="NewFileExecuted"/>
-        <CommandBinding Command="{StaticResource PrintFile}" CanExecute="WhenTasksLoadedCanExecute" Executed="PrintFileExecuted"/>
-        <CommandBinding Command="{StaticResource PrintPreviewFile}" CanExecute="WhenTasksLoadedCanExecute" Executed="PrintPreviewFileExecuted"/>
-        <CommandBinding Command="{StaticResource ArchiveCompletedTasks}" CanExecute="WhenTasksLoadedCanExecute" Executed="ArchiveCompletedTasksExecuted"/>
-        <CommandBinding Command="{StaticResource ReloadFile}" CanExecute="WhenTasksLoadedCanExecute" Executed="ReloadFileExecuted"/>
-        <CommandBinding Command="{StaticResource Options}" CanExecute="AlwaysCanExecute" Executed="OptionsExecuted"/>
-        <CommandBinding Command="{StaticResource ExitApplication}" CanExecute="AlwaysCanExecute" Executed="ExitApplicationExecuted"/>
-        <!-- Edit Menu commands -->
-        <CommandBinding Command="{StaticResource CopySelectedTaskToNewTask}" CanExecute="WhenSingleTaskSelectedCanExecute" Executed="CopySelectedTaskToNewTaskExecuted"/>
-        <!-- Task menu commands -->
-        <CommandBinding Command="{StaticResource NewTask}" CanExecute="AlwaysCanExecute" Executed="NewTaskExecuted"/>
-        <CommandBinding Command="{StaticResource NewTaskWithPriority}" CanExecute="AlwaysCanExecute" Executed="NewTaskWithPriorityExecuted"/>
-        <CommandBinding Command="{StaticResource UpdateTask}" CanExecute="WhenSingleTaskSelectedCanExecute" Executed="UpdateTaskExecuted"/>
-        <CommandBinding Command="{StaticResource AppendText}" CanExecute="WhenTasksSelectedCanExecute" Executed="AppendTextExecuted"/>
-        <CommandBinding Command="{StaticResource DeleteTask}" CanExecute="WhenTasksSelectedCanExecute" Executed="DeleteTaskExecuted"/>
-        <CommandBinding Command="{StaticResource ToggleCompletion}" CanExecute="WhenTasksSelectedCanExecute" Executed="ToggleCompletionExecuted"/>
-        <CommandBinding Command="{StaticResource SetDueDate}" CanExecute="WhenTasksSelectedCanExecute" Executed="SetDueDateExecuted"/>
-        <CommandBinding Command="{StaticResource PostponeTask}" CanExecute="WhenTasksSelectedCanExecute" Executed="PostponeTaskExecuted"/>
-        <CommandBinding Command="{StaticResource SetThresholdDate}" CanExecute="WhenTasksSelectedCanExecute" Executed="SetThresholdDateExecuted"/>
-        <CommandBinding Command="{StaticResource ThresholdTask}" CanExecute="WhenTasksSelectedCanExecute" Executed="ThresholdTaskExecuted"/>
-        <CommandBinding Command="{StaticResource SetPriority}" CanExecute="WhenTasksSelectedCanExecute" Executed="SetPriorityExecuted"/>
-        <CommandBinding Command="{StaticResource IncreasePriority}" CanExecute="WhenTasksSelectedCanExecute" Executed="IncreasePriorityExecuted"/>
-        <CommandBinding Command="{StaticResource DecreasePriority}" CanExecute="WhenTasksSelectedCanExecute" Executed="DecreasePriorityExecuted"/>
-        <CommandBinding Command="{StaticResource RemovePriority}" CanExecute="WhenTasksSelectedCanExecute" Executed="RemovePriorityExecuted"/>
-        <CommandBinding Command="{StaticResource IncrementDueDate}" CanExecute="WhenTasksSelectedCanExecute" Executed="IncrementDueDateExecuted"/>
-        <CommandBinding Command="{StaticResource DecrementDueDate}" CanExecute="WhenTasksSelectedCanExecute" Executed="DecrementDueDateExecuted"/>
-        <CommandBinding Command="{StaticResource RemoveDueDate}" CanExecute="WhenTasksSelectedCanExecute" Executed="RemoveDueDateExecuted"/>
-        <CommandBinding Command="{StaticResource IncrementThresholdDate}" CanExecute="WhenTasksSelectedCanExecute" Executed="IncrementThresholdDateExecuted"/>
-        <CommandBinding Command="{StaticResource DecrementThresholdDate}" CanExecute="WhenTasksSelectedCanExecute" Executed="DecrementThresholdDateExecuted"/>
-        <CommandBinding Command="{StaticResource RemoveThresholdDate}" CanExecute="WhenTasksSelectedCanExecute" Executed="RemoveThresholdDateExecuted"/>
-        <!-- Sort menu commands -->
-        <CommandBinding Command="{StaticResource SortByAlphabetical}" CanExecute="WhenTasksLoadedCanExecute" Executed="SortByAlphabeticalExecuted"/>
-        <CommandBinding Command="{StaticResource SortByCompleted}" CanExecute="WhenTasksLoadedCanExecute" Executed="SortByCompletedExecuted"/>
-        <CommandBinding Command="{StaticResource SortByContext}" CanExecute="WhenTasksLoadedCanExecute" Executed="SortByContextExecuted"/>
-        <CommandBinding Command="{StaticResource SortByDueDate}" CanExecute="WhenTasksLoadedCanExecute" Executed="SortByDueDateExecuted"/>
-        <CommandBinding Command="{StaticResource SortByCreatedDate}" CanExecute="WhenTasksLoadedCanExecute" Executed="SortByCreatedDateExecuted"/>
-        <CommandBinding Command="{StaticResource SortByPriority}" CanExecute="WhenTasksLoadedCanExecute" Executed="SortByPriorityExecuted"/>
-        <CommandBinding Command="{StaticResource SortByProject}" CanExecute="WhenTasksLoadedCanExecute" Executed="SortByProjectExecuted"/>
-        <CommandBinding Command="{StaticResource SortByFileOrder}" CanExecute="WhenTasksLoadedCanExecute" Executed="SortByFileOrderExecuted"/>
-        <!-- Filter menu commands -->
-        <CommandBinding Command="{StaticResource DefineFilters}" CanExecute="AlwaysCanExecute" Executed="DefineFiltersExecuted"/>
-        <CommandBinding Command="{StaticResource ApplyFilterFutureTasks}" CanExecute="AlwaysCanExecute" Executed="ApplyFilterFutureTasksExecuted"/>
-        <CommandBinding Command="{StaticResource ApplyShowHiddenTasks}" CanExecute="AlwaysCanExecute" Executed="ApplyShowHiddenTasksExecuted"/>
-        <CommandBinding Command="{StaticResource RemoveFilter}" CanExecute="AlwaysCanExecute" Executed="RemoveFilterExecuted"/>
-        <CommandBinding Command="{StaticResource ApplyFilterPreset1}" CanExecute="AlwaysCanExecute" Executed="ApplyFilterPreset1Executed"/>
-        <CommandBinding Command="{StaticResource ApplyFilterPreset2}" CanExecute="AlwaysCanExecute" Executed="ApplyFilterPreset2Executed"/>
-        <CommandBinding Command="{StaticResource ApplyFilterPreset3}" CanExecute="AlwaysCanExecute" Executed="ApplyFilterPreset3Executed"/>
-        <CommandBinding Command="{StaticResource ApplyFilterPreset4}" CanExecute="AlwaysCanExecute" Executed="ApplyFilterPreset4Executed"/>
-        <CommandBinding Command="{StaticResource ApplyFilterPreset5}" CanExecute="AlwaysCanExecute" Executed="ApplyFilterPreset5Executed"/>
-        <CommandBinding Command="{StaticResource ApplyFilterPreset6}" CanExecute="AlwaysCanExecute" Executed="ApplyFilterPreset6Executed"/>
-        <CommandBinding Command="{StaticResource ApplyFilterPreset7}" CanExecute="AlwaysCanExecute" Executed="ApplyFilterPreset7Executed"/>
-        <CommandBinding Command="{StaticResource ApplyFilterPreset8}" CanExecute="AlwaysCanExecute" Executed="ApplyFilterPreset8Executed"/>
-        <CommandBinding Command="{StaticResource ApplyFilterPreset9}" CanExecute="AlwaysCanExecute" Executed="ApplyFilterPreset9Executed"/>
-        <!-- Help menu commands -->
-        <CommandBinding Command="{StaticResource HelpAbout}" CanExecute="AlwaysCanExecute" Executed="HelpAboutExecuted"/>
-        <CommandBinding Command="{StaticResource ViewLog}" CanExecute="AlwaysCanExecute" Executed="ViewLogExecuted"/>
-        <CommandBinding Command="{StaticResource Donate}" CanExecute="AlwaysCanExecute" Executed="DonateExecuted"/>
-        <CommandBinding Command="{StaticResource ShowCalendar}" CanExecute="AlwaysCanExecute" Executed="ShowCalendarExecuted"/>
         <!-- Task List commands -->
         <CommandBinding Command="{StaticResource EmulateUpArrow}" CanExecute="WhenTasksLoadedCanExecute" Executed="EmulateUpArrowExecuted"/>
         <CommandBinding Command="{StaticResource EmulateDownArrow}" CanExecute="WhenTasksLoadedCanExecute" Executed="EmulateDownArrowExecuted"/>
@@ -207,14 +150,119 @@
         <KeyBinding Command="{StaticResource SortByFileOrder}" Key="D0" Modifiers="Control"/>
         <KeyBinding Command="{StaticResource SortByFileOrder}" Key="NumPad0" Modifiers="Control"/>
     </Window.InputBindings>
-    <Grid Name="stackPanel1" Margin="0,0,0,0" ShowGridLines="False" >
+    <Grid Name="stackPanl1" Margin="0,0,0,0" ShowGridLines="False" >
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="25"></RowDefinition>
             <RowDefinition Height="*" ></RowDefinition>
             <RowDefinition Height="23"></RowDefinition>
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0" Height="23" Name="menu1" VerticalAlignment="Top" IsMainMenu="True" KeyboardNavigation.TabNavigation="None">
+        <Ribbon Name="ribbon1" Grid.Row="0" Background="#f3f3f3">
+            <Ribbon.ApplicationMenu>
+                <RibbonApplicationMenu Background="#657E02" SmallImageSource="/TodoTouch_512.ico">
+                    <RibbonApplicationMenuItem Header="_New" Command="{StaticResource NewFile}" ToolTip="Ctrl+N" />
+                    <RibbonApplicationMenuItem Header="_Open" Command="{StaticResource OpenFile}" />
+                    <RibbonApplicationMenuItem Header="Print" Command="{StaticResource PrintFile}" />
+                    <RibbonApplicationMenuItem Header="Print Pre_view" Command="{StaticResource PrintPreviewFile}" />
+                    <RibbonSeparator Margin="5,2"/>
+                    <RibbonApplicationMenuItem Header="_Archive Completed Tasks" Command="{StaticResource ArchiveCompletedTasks}" />
+                    <RibbonApplicationMenuItem Header="_Reload File" Command="{StaticResource ReloadFile}" />
+                    <RibbonSeparator Margin="5,2"/>
+                    <RibbonApplicationMenuItem Header="Op_tions..." Command="{StaticResource Options}" />
+                    <RibbonSeparator Margin="5,2"/>
+                    <RibbonApplicationMenuItem Header="E_xit" Command="{StaticResource ExitApplication}" />
+                </RibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>
+            <Ribbon.HelpPaneContent>
+                <RibbonSplitButton SmallImageSource="/Resources/helpindex.png">
+                    <RibbonMenuItem Header="_About" Command="{StaticResource HelpAbout}" />
+                    <RibbonMenuItem Header="_View Error Log" Command="{StaticResource ViewLog}" />
+                    <RibbonMenuItem Header="_Donate" Command="{StaticResource Donate}" />
+                    <RibbonMenuItem Header="_Show Calendar" Command="{StaticResource ShowCalendar}" />
+                </RibbonSplitButton>
+            </Ribbon.HelpPaneContent>
+            <RibbonTab Header="Start">
+                <RibbonGroup Header="Clipboard">
+                    <RibbonButton Label="Paste" Command="Paste" LargeImageSource="/Resources/paste.png" />
+                    <RibbonButton Label="Cut" Command="Cut" SmallImageSource="/Resources/cut.png"/>
+                    <RibbonButton Label="Copy" Command="Copy" SmallImageSource="/Resources/copy.png"/>
+                    <RibbonButton Label="Duplicate" Command="{StaticResource CopySelectedTaskToNewTask}" SmallImageSource="/Resources/pasteunformatted.png"/>
+                </RibbonGroup>
+                <RibbonGroup Header="Task">
+                    <RibbonButton  Label="New Task" Command="{StaticResource NewTask}" LargeImageSource="/Resources/newTask.png"/>
+                        <RibbonButton Label="Edit" Command="{StaticResource UpdateTask}" SmallImageSource="/Resources/editTask.png"/>
+                        <RibbonToggleButton Label="Completed" Command="{StaticResource ToggleCompletion}" SmallImageSource="/Resources/checkbox.png" IsChecked="{Binding SelectedItem.Completed, ElementName=lbTasks, Mode=OneWay}"/>
+                        <RibbonButton Label="Delete" Command="{StaticResource DeleteTask}" SmallImageSource="/Resources/delete.png"/>
+                </RibbonGroup>
+                <RibbonGroup Header="Filter">
+                    <RibbonButton Label="Define Filters" Command="{StaticResource DefineFilters}" LargeImageSource="/Resources/datafilterstandardfilter.png"/>
+                    <RibbonToggleButton Label="Hide Future Tasks" Command="{StaticResource ApplyFilterFutureTasks}" IsChecked="{Binding Source={x:Static local:User.Default}, Path=FilterFutureTasks, Mode=OneWay}"/>
+                    <!-- Auskommentiert weil es eigtl. keine hidden Tasks gibt
+                    <RibbonToggleButton Label="Show Hidden Tasks" Command="{StaticResource ApplyShowHiddenTasks}" IsChecked="{Binding Source={x:Static local:User.Default}, Path=ShowHiddenTasks, Mode=OneWay}"/>
+                    -->
+                    
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Header="Task">
+                <RibbonGroup Header="Misc">
+                    <RibbonButton Label="Edit" Command="{StaticResource UpdateTask}" SmallImageSource="/Resources/editTask.png"/>
+                    <RibbonToggleButton Label="Completed" Command="{StaticResource ToggleCompletion}" SmallImageSource="/Resources/checkbox.png" IsChecked="{Binding SelectedItem.Completed, ElementName=lbTasks, Mode=OneWay}"/>
+                    <RibbonButton Label="Delete" Command="{StaticResource DeleteTask}" SmallImageSource="/Resources/delete.png"/>
+                </RibbonGroup>
+                <RibbonGroup Header="Priority">
+                    <RibbonButton Label="Set" Command="{StaticResource SetPriority}" SmallImageSource="/Resources/prioSet.png"/>
+                    <RibbonButton Label="Up" Command="{StaticResource IncreasePriority}" SmallImageSource="/Resources/prioUp.png"/>
+                    <RibbonButton Label="Down" Command="{StaticResource DecreasePriority}" SmallImageSource="/Resources/prioDown.png"/>
+                    <RibbonButton Label="Remove"  Command="{StaticResource RemovePriority}" SmallImageSource="/Resources/prioRemove.png"/>
+                </RibbonGroup>
+                <RibbonGroup Header="Due Date">
+                    <ribbon:RibbonButton Label="Set " Command="{StaticResource SetDueDate}" SmallImageSource="/Resources/dueDateSet.png"/>
+                    <ribbon:RibbonButton Label="Postpone" Command="{StaticResource PostponeTask}"  SmallImageSource="/Resources/dueDateMove.png"/>
+                    <ribbon:RibbonButton Label="+1" Command="{StaticResource IncrementDueDate}" SmallImageSource="/Resources/dueDatePlus.png"/>
+                    <ribbon:RibbonButton Label="-1" Command="{StaticResource DecrementDueDate}" SmallImageSource="/Resources/dueDateMinus.png"/>
+                    <ribbon:RibbonButton Label="Remove" Command="{StaticResource RemoveDueDate}" SmallImageSource="/Resources/dueDateRemove.png"/>
+                </RibbonGroup>
+                <RibbonGroup Header="Threshold Date">
+                    <ribbon:RibbonButton Label="Set" Command="{StaticResource SetThresholdDate}" SmallImageSource="/Resources/ThresholdSet.png"/>
+                    <ribbon:RibbonButton Label="Threshold" Command="{StaticResource ThresholdTask}"  SmallImageSource="/Resources/ThresholdMove.png"/>
+                    <ribbon:RibbonButton Label="+1" Command="{StaticResource IncrementThresholdDate}" SmallImageSource="/Resources/ThresholdPlus.png"/>
+                    <ribbon:RibbonButton Label="-1" Command="{StaticResource DecrementThresholdDate}" SmallImageSource="/Resources/ThresholdMinus.png"/>
+                    <ribbon:RibbonButton Label="Remove" Command="{StaticResource RemoveThresholdDate}" SmallImageSource="/Resources/ThresholdRemove.png"/>
+                </RibbonGroup>
+
+            </RibbonTab>
+            <RibbonTab Header="Sort">
+                <RibbonGroup Header="Sort">
+                    <ribbon:RibbonButton Label="File Order" Command="{StaticResource SortByFileOrder}" SmallImageSource="/Resources/sortFile.png"/>
+                    <ribbon:RibbonButton Label="Alphabetical" Command="{StaticResource SortByAlphabetical}" SmallImageSource="/Resources/sortAlphabet.png"/>
+                    <ribbon:RibbonButton Label="Completed" Command="{StaticResource SortByCompleted}" SmallImageSource="/Resources/sortComplete.png"/>
+                    <ribbon:RibbonButton Label="Context" Command="{StaticResource SortByContext}" SmallImageSource="/Resources/sortContext.png"/>
+                    <ribbon:RibbonButton Label="Due Date" Command="{StaticResource SortByDueDate}" SmallImageSource="/Resources/sortDue.png"/>
+                    <ribbon:RibbonButton Label="Creation Date" Command="{StaticResource SortByCreatedDate}" SmallImageSource="/Resources/sortCreation.png"/>
+                    <ribbon:RibbonButton Label="Priority" Command="{StaticResource SortByPriority}" SmallImageSource="/Resources/sortPrio.png"/>
+                    <ribbon:RibbonButton Label="Project" Command="{StaticResource SortByProject}" SmallImageSource="/Resources/sortProject.png"/>
+                </RibbonGroup>                
+            </RibbonTab>
+            <RibbonTab Header="Filter">
+                <RibbonGroup Header="Settings">
+                    <RibbonButton Label="Define Filters" Command="{StaticResource DefineFilters}" LargeImageSource="/Resources/datafilterstandardfilter.png"/>
+                    <RibbonToggleButton Label="Hide Future Tasks" Command="{StaticResource ApplyFilterFutureTasks}" IsChecked="{Binding Source={x:Static local:User.Default}, Path=FilterFutureTasks, Mode=OneWay}"/>
+                </RibbonGroup>
+                <RibbonGroup Header="Preset Filter">
+                    <ribbon:RibbonButton Label="Remove" Command="{StaticResource RemoveFilter}" Tag="Preset0" FontWeight="Normal" />
+                    <ribbon:RibbonButton Label="Apply 1" Command="{StaticResource ApplyFilterPreset1}" Tag="Preset1" FontWeight="Normal" />
+                    <ribbon:RibbonButton Label="Apply 2" Command="{StaticResource ApplyFilterPreset1}" Tag="Preset2" FontWeight="Normal" />
+                    <ribbon:RibbonButton Label="Apply 3" Command="{StaticResource ApplyFilterPreset1}" Tag="Preset3" FontWeight="Normal" />
+                    <ribbon:RibbonButton Label="Apply 4" Command="{StaticResource ApplyFilterPreset1}" Tag="Preset4" FontWeight="Normal" />
+                    <ribbon:RibbonButton Label="Apply 5" Command="{StaticResource ApplyFilterPreset1}" Tag="Preset5" FontWeight="Normal" />
+                    <ribbon:RibbonButton Label="Apply 6" Command="{StaticResource ApplyFilterPreset1}" Tag="Preset6" FontWeight="Normal" />
+                    <ribbon:RibbonButton Label="Apply 7" Command="{StaticResource ApplyFilterPreset1}" Tag="Preset7" FontWeight="Normal" />
+                    <ribbon:RibbonButton Label="Apply 8" Command="{StaticResource ApplyFilterPreset1}" Tag="Preset8" FontWeight="Normal" />
+                    <ribbon:RibbonButton Label="Apply 9" Command="{StaticResource ApplyFilterPreset1}" Tag="Preset9" FontWeight="Normal" />
+                </RibbonGroup>
+            </RibbonTab>
+        </Ribbon>
+        <Menu Visibility="Hidden" Grid.Row="0" Height="23" Name="menu1" VerticalAlignment="Top" IsMainMenu="True" KeyboardNavigation.TabNavigation="None">
             <MenuItem Header="_File">
                 <MenuItem Header="_New" Command="{StaticResource NewFile}" InputGestureText="Ctrl+N"/>
                 <MenuItem Header="_Open" Command="{StaticResource OpenFile}" InputGestureText="Ctrl+O"/>
